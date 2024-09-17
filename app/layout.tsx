@@ -1,3 +1,5 @@
+import '@radix-ui/themes/styles.css';
+import { Theme } from '@radix-ui/themes';
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -26,14 +28,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
+
+   <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+           <Theme>
         <Navbar/>
        <main>
        {children}
        </main>
+       </Theme>
       </body>
+
     </html>
   );
 }
