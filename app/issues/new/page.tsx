@@ -8,6 +8,7 @@ import axios from "axios"
 import { useRouter } from 'next/navigation';
 import {createIssueSchema} from "../../lib/validation";
 import { zodResolver } from '@hookform/resolvers/zod';
+import ErrorMessage from '@/app/components/ErrorMessage';
 import {z} from "zod"
 
 
@@ -42,7 +43,7 @@ const NewPageIssue = () => {
      }
     })}>
         <TextField.Root size="2" placeholder="Title" {...register("title")} />
-        {errors.title && <Text color='red' as='p'>{errors.title.message}</Text>}
+        <ErrorMessage>{errors.title?.message}</ErrorMessage>
      <div className='py-4'>
 
      </div>
@@ -55,7 +56,7 @@ const NewPageIssue = () => {
         )}
       />
 
- {errors.description && <Text color="red" as='p'>{errors.description.message}</Text>}
+ <ErrorMessage>{errors.description?.message}</ErrorMessage>
 
  <Button>Submit New Issue</Button>
     </form>
