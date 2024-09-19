@@ -34,60 +34,14 @@ export async function POST(request: NextRequest) {
 
 
 
-
 // Get api 
 export async function GET(req: NextRequest) {
-    try {
-        const { searchParams } = new URL(req.url);
-        const page = searchParams.get("page") ? parseInt(searchParams.get("page") as string, 10) : 1;
-        const limit = searchParams.get("limit") ? parseInt(searchParams.get("limit") as string, 10) : 10;
-        const status = searchParams.get("status");
-        const search = searchParams.get("search");
-
-
-        const skip = (page - 1) * limit;
-
-        const whereClause: any = {};
-
-        if (status) {
-            whereClause.status = status; 
-        }
-
-        if (search) {
-            whereClause.OR = [
-                { title: { contains: search, mode: 'insensitive' } }, 
-                { description: { contains: search, mode: 'insensitive' } }, 
-            ];
-        }
-        
-
-        const issues = await prisma.issues.findMany({
-            where: whereClause,
-            skip,
-            take: limit,
-            orderBy: {
-                createdAt: 'desc', 
-            },
-        });
-
-
-        const totalIssues = await prisma.issues.count({ where: whereClause });
-
-
-        return NextResponse.json(
-            {
-                data: issues,
-                pagination: {
-                    totalPages: Math.ceil(totalIssues / limit),
-                    currentPage: page,
-                },
-            },
-            { status: 200 }
-        );
-    } catch (error) {
-        console.error("Error fetching issues:", error);
-        return NextResponse.json({ error: "Server error" }, { status: 500 });
-    }
+  try {
+    const issues = await prisma.issues.findMany()
+    return NextResponse.json(issues, {status: 200})
+} catch (error) {
+    return NextResponse.json({error: "Server error"}, {status: 500})
+}
 }
 
 

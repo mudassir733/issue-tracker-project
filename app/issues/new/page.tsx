@@ -27,7 +27,7 @@ const NewPageIssue = () => {
   const onSubmit = handleSubmit(async (data) => {
     try {
      setSpinner(true)
-     await axios.post("/api/issues/POST", data)
+     await axios.post("/api/issues", data)
      router.push('/issues')
     } catch (err) {
      setSpinner(false)
